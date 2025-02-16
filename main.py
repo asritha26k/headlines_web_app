@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import requests
@@ -18,6 +18,6 @@ async def serve_homepage(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 @app.post("/predict/")
-async def get_prediction(text: str):
+async def get_prediction(text: str = Form(...)):  # Accept input from form
     response = requests.post(API_URL, json={"text": text})
     return response.json()
